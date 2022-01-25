@@ -1,0 +1,7 @@
+alias diaryy='EDITOR=vim diary ~/.diary/'
+alias v='nvim'
+alias dark='sudo brillo -q -U 10'
+alias bright='sudo brillo -q -A 10'
+alias news='newsboat'
+alias am='alsamixer'
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
