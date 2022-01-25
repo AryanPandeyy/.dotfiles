@@ -1,0 +1,5 @@
+nitrogen --restore & 
+unclutter &
+dunst &
+bugs &
+exec dwm
