@@ -1,0 +1,6 @@
+#!/bin/sh
+
+test -f /usr/bin/youtube-dl && yt='/usr/bin/youtube-dl'
+test -f /usr/bin/yt-dlp && yt='/usr/bin/yt-dlp'
+
+exec "$yt" "$@"
