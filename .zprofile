@@ -1,0 +1,1 @@
+/home/pandeypc/.config/shell/profile

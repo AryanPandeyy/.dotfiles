@@ -1,0 +1,1 @@
+/home/pandeypc/.config/x11/xinitrc
