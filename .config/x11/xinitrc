@@ -1,4 +1,5 @@
 nitrogen --restore & 
+xcompmgr &
 unclutter &
 dunst &
 bugs &
