@@ -5,7 +5,6 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 source "$XDG_CONFIG_HOME/shell/aliasrc"
 #cowsay "$(shuf -n 1 ~/.local/share/vocab/words.txt)"
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 PROMPT='[%F{blue}%n%F{red}@%m %f%F{blue}%~%f]$ '
 
 function countdown(){
@@ -23,4 +22,6 @@ function stopwatch(){
     sleep 0.1
    done
 }
+
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
