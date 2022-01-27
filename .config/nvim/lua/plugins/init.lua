@@ -35,4 +35,5 @@ return require('packer').startup(function(use)
   use { 'vimwiki/vimwiki' }
   use {'williamboman/nvim-lsp-installer'}
   use ({'mfussenegger/nvim-jdtls'})
+  --use {'turbio/bracey.vim'}
 end)
