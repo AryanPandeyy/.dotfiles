@@ -7,3 +7,4 @@ alias am='alsamixer'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias anime='ani-cli -q 720 -e mpv'
 alias hst="history 1 -1 | cut -c 8- | sort | uniq | fzf | tr -d '\n' | xclip -sel c"
+alias y='ytfzf --pages=5'
