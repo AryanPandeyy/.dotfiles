@@ -1,0 +1,9 @@
+#!/bin/sh
+
+query=$(printf '%s' "$*" | sed 's/ /%20/g' )
+movie=$(curl -s https://www.1377x.to/search/$query/1/ | grep -Eo "torrent\/[0-9]{7}\/[a-zA-Z0-9?%-]*/" | head -n 1)
+magnet=$(curl -s https://www.1377x.to/$movie | grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9]*" | head -n 1)
+echo $query
+echo $movie
+echo $magnet
+peerflix -k $magnet
