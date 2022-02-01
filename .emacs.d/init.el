@@ -11,7 +11,8 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
+(require 'org) 
+;;(setq org-clock-sound "~/e.macsd/ding.wav")
 (use-package ewal
   :init (setq ewal-use-built-in-always-p nil
               ewal-use-built-in-on-failure-p t
@@ -44,24 +45,35 @@
   :ensure t
   :config
   (exec-path-from-shell-initialize))
-(defun baal-setup-lsp-company ()
-  (setq-local company-backends
-              '(company-capf company-dabbrev company-dabbrev-code)))
+(unless (package-installed-p 'evil)
+  (package-install 'evil))
 
-(add-hook 'lsp-completion-mode-hook #'baal-setup-lsp-company)
-(setq  ;; How long to wait before popping up
-      company-minimum-prefix-length 2 ;; Show the menu after one key press
-      company-tooltip-limit 15 ;; Limit on how many options to display
-      company-show-numbers t   ;; Show numbers behind options
-      company-tooltip-align-annotations t ;; Align annotations to the right
-      company-require-match nil           ;; Allow free typing
-      company-selection-wrap-around t ;; Wrap around to beginning when you hit bottom of suggestions
-      company-dabbrev-ignore-case t ;; Don't ignore case when completing
-      company-dabbrev-downcase t ;; Don't automatically downcase completions
+;; Enable Evil
+(require 'evil)
+(evil-mode 1)
+;(;; defun baal-setup-lsp-company ()
+;;   (setq-local company-backends
+;;               '(company-capf company-dabbrev company-dabbrev-code)))
+
+;; (add-hook 'lsp-completion-mode-hook #'baal-setup-lsp-company)
+(setq company-idle-delay 0 ;; How long to wait before popping up
+       company-minimum-prefix-length 1 ;; Show the menu after one key press
+      ;; company-tooltip-limit 15 ;; Limit on how many options to display
+      ;; company-show-numbers t   ;; Show numbers behind options
+      ;; company-tooltip-align-annotations t ;; Align annotations to the right
+      ;; company-require-match nil           ;; Allow free typing
+      ;; company-selection-wrap-around t ;; Wrap around to beginning when you hit bottom of suggestions
+      ;; company-dabbrev-ignore-case t ;; Don't ignore case when completing
+      ;; company-dabbrev-downcase t ;; Don't automatically downcase completions
       )
-
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 (use-package company
   :ensure t
+  :bind
+  ("C-j" . company-complete)
   :init
   (add-hook 'after-init-hook 'global-company-mode))
 
@@ -76,27 +88,39 @@
   :mode (("\\.js\\'" . web-mode)
 	 ("\\.jsx\\'" . web-mode)
 	 ("\\.ts\\'" . web-mode)
-	 ("\\.tsx\\'" . web-mode)
-	 ("\\html\\'" . web-mode))
+	 ("\\.tsx\\'" . web-mode))
   :commands web-mode)
-
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (setq lsp-log-io nil)
 (setq lsp-keymap-prefix "C-c l")
 (setq lsp-restart 'auto-restart)
-(setq lsp-ui-sideline-show-diagnostics t)
-(setq lsp-ui-sideline-show-hover t)
-(setq lsp-ui-sideline-show-code-actions t)
+;;(setq lsp-ui-sideline-show-diagnostics t)
+;;(setq lsp-ui-sideline-show-hover t)
+;;(setq lsp-ui-sideline-show-code-actions t)
+(setq lsp-enable-snippet t)
 (use-package lsp-mode
   :ensure t
   :hook (
 	 (web-mode . lsp-deferred)
+	 (html-mode . lsp)
+	 (lsp-mode . lsp-enable-which-key-integration)
 	 )
   :commands lsp-deferred)
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+
 (require 'lsp-java)
 (add-hook 'java-mode-hook #'lsp)
+(setq lsp-java-java-path "/usr/lib/jvm/java-17-openjdk/bin/java")
+(setq lsp-java-configuration-runtimes '[(:name "JavaSE-11"
+					       :path "/usr/lib/jvm/java-11-openjdk"
+					       :default t)
+					(:name "JavaSE-17"
+						:path "/usr/lib/jvm/java-17-openjdk/")])
+(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+(use-package dap-java :ensure nil)
+(require 'lsp-html)
+(add-hook 'html-mode-hook #'lsp)
+	 
 ;;(use-package lsp-mode
 ;;  :ensure t
 ;;  :commands lsp
@@ -121,18 +145,18 @@
 ;;(use-package prettier
 ;;  :ensure t
 ;;  :diminish
-;;  :hook ((mhtml-mode css-mode scss-mode rjsx-mode js2-mode ) . prettier-mode))
-;;(use-package emmet-mode
-;;  :ensure t
-;;  :bind
-;;  ("C-<tab>" . emmet-expand-line)
-;;  :diminish
-;;  :config
-;;  (add-to-list 'emmet-jsx-major-modes 'your-jsx-major-mode)
-;;  :custom
-;;  (emmet-indentation 2)
-;;  (emmet-move-cursor-between-quotes t)
-;;  :hook ((mhtml-mode css-mode scss-mode rjsx-mode) . emmet-mode))
+;;  :hook ((mhtml-mode css-mode scss-mode web-mode ) . prettier-mode))
+(use-package emmet-mode
+  :ensure t
+  :bind
+  ("C-<tab>" . emmet-expand-line)
+  :diminish
+  :config
+  (add-to-list 'emmet-jsx-major-modes 'your-jsx-major-mode)
+  :custom
+  (emmet-indentation 2)
+  (emmet-move-cursor-between-quotes t)
+  :hook ((mhtml-mode css-mode scss-mode) . emmet-mode))
 ;;(use-package flycheck
 ;;  :ensure t
 ;;  :hook ((js2-mode rjsx-mode css-mode scss-mode) . flycheck-mode))
@@ -212,7 +236,7 @@
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
  '(package-selected-packages
-   '(ewal exec-path-from-shell lsp-java lsp-ui json-mode counsel-etags web-mode tide company-box company rjsx-mode ewal-doom-themes emmet-mode prettier lsp-mode ## magit org-bullets hungry-delete switch-window dashboard ewal-spacemacs-themes use-package))
+   '(evil-visual-mark-mode evil yasnippet which-key ewal exec-path-from-shell lsp-java json-mode counsel-etags web-mode tide company-box company rjsx-mode ewal-doom-themes emmet-mode prettier lsp-mode ## magit org-bullets hungry-delete switch-window dashboard ewal-spacemacs-themes use-package))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
