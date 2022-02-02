@@ -11,8 +11,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(require 'org) 
-;;(setq org-clock-sound "~/e.macsd/ding.wav")
 (use-package ewal
   :init (setq ewal-use-built-in-always-p nil
               ewal-use-built-in-on-failure-p t
@@ -41,16 +39,20 @@
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 (add-to-list 'default-frame-alist
 	     '(font . "JetBrainsMono Nerd Font-14"))
-(use-package exec-path-from-shell
-  :ensure t
-  :config
-  (exec-path-from-shell-initialize))
+;; (use-package exec-path-from-shell
+;;   :ensure t
+;;   :config
+;;   (exec-path-from-shell-initialize))
 (unless (package-installed-p 'evil)
   (package-install 'evil))
 
 ;; Enable Evil
 (require 'evil)
 (evil-mode 1)
+(setq key-chord-two-keys-delay 0.5)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+(key-chord-mode 1)
 ;(;; defun baal-setup-lsp-company ()
 ;;   (setq-local company-backends
 ;;               '(company-capf company-dabbrev company-dabbrev-code)))
@@ -79,7 +81,6 @@
 
 (use-package json-mode
   :ensure t)
-
 (setq web-mode-markup-indent-offset 2)
 (setq web-mode-code-indent-offset 2)
 (setq web-mode-css-indent-offset 2)
@@ -88,16 +89,15 @@
   :mode (("\\.js\\'" . web-mode)
 	 ("\\.jsx\\'" . web-mode)
 	 ("\\.ts\\'" . web-mode)
-	 ("\\.tsx\\'" . web-mode))
+	 ("\\.tsx\\'" . web-mode)
+         ("\\.html\\'" . web-mode))
   :commands web-mode)
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
 (setq lsp-log-io nil)
 (setq lsp-keymap-prefix "C-c l")
 (setq lsp-restart 'auto-restart)
-;;(setq lsp-ui-sideline-show-diagnostics t)
-;;(setq lsp-ui-sideline-show-hover t)
-;;(setq lsp-ui-sideline-show-code-actions t)
+;; (setq lsp-ui-sideline-show-diagnostics t)
+;; (setq lsp-ui-sideline-show-hover t)
+;; (setq lsp-ui-sideline-show-code-actions t)
 (setq lsp-enable-snippet t)
 (use-package lsp-mode
   :ensure t
@@ -110,17 +110,21 @@
 
 (require 'lsp-java)
 (add-hook 'java-mode-hook #'lsp)
-(setq lsp-java-java-path "/usr/lib/jvm/java-17-openjdk/bin/java")
-(setq lsp-java-configuration-runtimes '[(:name "JavaSE-11"
-					       :path "/usr/lib/jvm/java-11-openjdk"
-					       :default t)
-					(:name "JavaSE-17"
-						:path "/usr/lib/jvm/java-17-openjdk/")])
-(use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
-(use-package dap-java :ensure nil)
+;; (setq lsp-java-java-path "/usr/lib/jvm/java-17-openjdk/bin/java")
+;; (setq lsp-java-configuration-runtimes '[(:name "JavaSE-11"
+;; 					       :path "/usr/lib/jvm/java-11-openjdk"
+;; 					       :default t)
+;; 					(:name "JavaSE-17"
+;; 						:path "/usr/lib/jvm/java-17-openjdk/")])
+;; (use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
+;; (use-package dap-java :ensure nil)
 (require 'lsp-html)
 (add-hook 'html-mode-hook #'lsp)
-	 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred	 
 ;;(use-package lsp-mode
 ;;  :ensure t
 ;;  :commands lsp
@@ -142,10 +146,10 @@
 ;  :ensure t
 ;  :after (rjsx-mode company flycheck)
 ;  :hook (rjsx-mode . setup-tide-mode))
-;;(use-package prettier
+;; (use-package prettier
 ;;  :ensure t
 ;;  :diminish
-;;  :hook ((mhtml-mode css-mode scss-mode web-mode ) . prettier-mode))
+;;  :hook ((mhtml-mode css-mode scss-mode web-mode java-mode) . prettier-mode))
 (use-package emmet-mode
   :ensure t
   :bind
@@ -157,13 +161,13 @@
   (emmet-indentation 2)
   (emmet-move-cursor-between-quotes t)
   :hook ((mhtml-mode css-mode scss-mode) . emmet-mode))
-;;(use-package flycheck
+;; (use-package flycheck
 ;;  :ensure t
-;;  :hook ((js2-mode rjsx-mode css-mode scss-mode) . flycheck-mode))
-;;(setq use-dialog-box nil)
-;;(setq use-file-dialog nil)
-;;(setq make-backup-files nil)
-;;(setq auto-save-default nil)
+;;  :hook ((js2-mode rjsx-mode css-mode scss-mode java-mode) . flycheck-mode))
+;; (setq use-dialog-box nil)
+;; (setq use-file-dialog nil)
+;; (setq make-backup-files nil)
+;; (setq auto-save-default nil)
 
 (global-subword-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -236,7 +240,7 @@
  '(org-fontify-done-headline nil)
  '(org-fontify-todo-headline nil)
  '(package-selected-packages
-   '(evil-visual-mark-mode evil yasnippet which-key ewal exec-path-from-shell lsp-java json-mode counsel-etags web-mode tide company-box company rjsx-mode ewal-doom-themes emmet-mode prettier lsp-mode ## magit org-bullets hungry-delete switch-window dashboard ewal-spacemacs-themes use-package))
+   '(lsp-ui flycheck impatient-mode key-chord lsp-pyright evil-visual-mark-mode evil yasnippet which-key ewal exec-path-from-shell lsp-java json-mode counsel-etags web-mode tide company-box company rjsx-mode ewal-doom-themes emmet-mode prettier lsp-mode ## magit org-bullets hungry-delete switch-window dashboard ewal-spacemacs-themes use-package))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
