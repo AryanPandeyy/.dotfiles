@@ -1,0 +1,8 @@
+set folder = "imaps://margiaryan@gmail.com@imap.gmail.com:993"
+set smtp_url = "smtps://margiaryan@gmail.com@smtp.gmail.com:465"
+set from = "margiaryan@gmail.com"
+set realname = "Aryan Pandey"
+set spoolfile = "+Inbox"
+set smtp_pass = "`pass gmail`"
+set imap_pass = "`pass gmail`"
+source muttwizard.muttrc
