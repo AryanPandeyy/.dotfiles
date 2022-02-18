@@ -16,6 +16,21 @@ update_time () {
 	time="$(date "+[  %a %d %b ] [  %I:%M %P ]")" 
 }
 
+#print_wifi() {
+#    wifiperc="$(grep "^\s*w" /proc/net/wireless | awk '{ print int($3 * 100 / 70) "%" }')"
+#    echo -ne " ${wifiperc}"
+#}
+#
+#print_volume() {
+#    mix=`amixer get Master | tail -1`
+#    vol="$(amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')"
+#    if [[ $mix == *\[off\]* ]]; then
+#        echo -ne " Muted"
+#    elif [[ $mix == *\[on\]* ]]; then
+#        echo -ne " ${vol}%"
+#    fi
+#}
+
 #update_bat () { 
 	# you might need to change the path depending on your device
 #	read -r bat_status </sys/class/power_supply/BAT0/status
@@ -36,20 +51,25 @@ update_time () {
 #	bat="$bat_status $bat_capacity%"
 #}
 
-update_vol () { 
-	vol="$([ "$(pamixer --get-mute)" = "false" ] && printf ' ' || printf ' ')$(pamixer --get-volume)%"
-}
+#update_vol () { 
+#	vol="$([ "$(pamixer --get-mute)" = "false" ] && printf ' ' || printf ' ')$(pamixer --get-volume)%"
+#}
 
 # We have to run this only once.
-update_vol
+#update_vol
+#print_volume
 
+#display () { 
+#	xsetroot -name "[  $memory $cpu ] [ $vol ] $time"
+#}
 display () { 
-	xsetroot -name "[  $memory $cpu ] [ $vol ] $time"
+	xsetroot -name "[  $memory $cpu ] $time"
 }
 
 # Handling receiving signal
 # RTMIN = 34 (always)
-trap	"update_vol;display"	"RTMIN"
+#trap	"update_vol;display"	"RTMIN"
+trap	"display"	"RTMIN"
 
 ## kill -m "$(cat ~/.cache/pidofbar)"
 # where m = 34 + n
