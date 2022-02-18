@@ -1,10 +1,17 @@
 alias diaryy='EDITOR=vim diary ~/.diary/'
 alias v='nvim'
-alias dark='sudo brillo -q -U 10'
-alias bright='sudo brillo -q -A 10'
+alias dark='sudo brillo -q -U 5'
+alias bright='sudo brillo -q -A 5'
+alias mail='neomutt'
 alias news='newsboat'
 alias am='alsamixer'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias anime='ani-cli -q 720 -e mpv'
+alias anime='ani-cli'
 alias hst="history 1 -1 | cut -c 8- | sort | uniq | fzf | tr -d '\n' | xclip -sel c"
 alias y='ytfzf --pages=5'
+
+# devour windows
+#alias zathura='devour zathura'
+#alias sxiv='devour sxiv'
+
+se() { du -a ~/.local/ ~/.config/ | awk '{print $2}' | fzf | xargs -r $EDITOR ;}
