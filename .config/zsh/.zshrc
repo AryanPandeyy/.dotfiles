@@ -1,5 +1,5 @@
 export ZSH="$HOME/.config/zsh/oh-my-zsh/.oh-my-zsh"
-ZSH_THEME="alanpeabody"
+#ZSH_THEME="alanpeabody"
 HISTFILE=~/.cache/zsh/history
 plugins=(git)
 source $ZSH/oh-my-zsh.sh
@@ -22,6 +22,16 @@ function stopwatch(){
     sleep 0.1
    done
 }
+# vi mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Use vim keys in tab complete menu:
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
 
 #source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
