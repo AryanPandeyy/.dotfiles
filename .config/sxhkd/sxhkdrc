@@ -1,0 +1,13 @@
+Print
+	maim --select | tee ~/pix/ss/$(date +%s).jpg | xclip -sel c -t image/jpg
+
+super + Print 
+	maim | tee ~/pix/ss/$(date +%s).jpg | xclip -sel c -t image/jpg
+XF86Audio{RaiseVolume,LowerVolume,Mute}
+	pamixer -{i,d,t} 2
+super + F1
+	brightnessctl s +2%
+super + F2
+	brightnessctl s 2%-
+super + i
+	emacs
