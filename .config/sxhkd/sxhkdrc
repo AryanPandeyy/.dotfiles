@@ -1,13 +1,16 @@
 Print
 	maim --select | tee ~/pix/ss/$(date +%s).jpg | xclip -sel c -t image/jpg
-
 super + Print 
 	maim | tee ~/pix/ss/$(date +%s).jpg | xclip -sel c -t image/jpg
 XF86Audio{RaiseVolume,LowerVolume,Mute}
-	pamixer -{i,d,t} 2
-super + F1
-	brightnessctl s +2%
-super + F2
-	brightnessctl s 2%-
+	pamixer -{i,d,t} 2; kill -34 $(cat ~/.cache/pidofbar)
+super + F5
+	brillo -q -A 2; kill -35 $(cat ~/.cache/pidofbar)
+super + F6
+	brillo -q -U 2; kill -35 $(cat ~/.cache/pidofbar)
 super + i
 	emacs
+super + Return
+	alacritty
+super + o
+	searchgoogle.sh
