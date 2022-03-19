@@ -1,6 +1,6 @@
 Print
 	maim --select | tee ~/pix/ss/$(date +%s).jpg | xclip -sel c -t image/jpg
-super + Print 
+super + Print
 	maim | tee ~/pix/ss/$(date +%s).jpg | xclip -sel c -t image/jpg
 XF86Audio{RaiseVolume,LowerVolume,Mute}
 	pamixer -{i,d,t} 2; kill -34 $(cat ~/.cache/pidofbar)
@@ -8,9 +8,27 @@ super + F5
 	brillo -q -A 2; kill -35 $(cat ~/.cache/pidofbar)
 super + F6
 	brillo -q -U 2; kill -35 $(cat ~/.cache/pidofbar)
-super + i
-	emacs
 super + Return
-	alacritty
-super + o
+	st
+super + r
 	searchgoogle.sh
+super + shift + l
+	microsoft-edge-stable https://github.com/kunal-kushwaha/DSA-Bootcamp-Java/tree/main/assignments
+super + Escape
+	sysact
+super + e
+	emacs
+super + shift + n
+	st diaryy
+super + shift + b
+	bookm
+super + n
+	st -e diary ~/ARYAN/diary
+super + shift + Print
+	dmenurecord
+super + Delete
+	dmenurecord kill
+super + grave
+	emoji
+super + shift + e
+	yt -g

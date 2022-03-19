@@ -1,9 +1,9 @@
 
 #export EDITOR="vim"
 
-  
+
 export EDITOR="vim"
-export TERMINAL="alacritty"
+export TERMINAL="st"
 export BROWSER="microsoft-edge-stable"
 
 export XDG_CONFIG_HOME="$HOME/.config"

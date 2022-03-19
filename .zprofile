@@ -1,1 +1,1 @@
-/home/pandeypc/.config/shell/profile
+/home/ap/.config/shell/profile

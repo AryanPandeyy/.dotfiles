@@ -42,7 +42,7 @@ export SEP2="]"
 #. "$DIR/bar-functions/dwm_ccurse.sh"
 . "$DIR/bar-functions/dwm_date.sh"
 #. "$DIR/bar-functions/dwm_connman.sh"
-. "$DIR/bar-functions/dwm_loadavg.sh"
+#. "$DIR/bar-functions/dwm_loadavg.sh"
 #. "$DIR/bar-functions/dwm_currency.sh"
 
 parallelize() {
@@ -80,7 +80,7 @@ do
     #upperbar="$upperbar$(dwm_keyboard)"
     #upperbar="$upperbar$(dwm_ccurse)"
     upperbar="$upperbar$(dwm_date)"
-    upperbar="$upperbar$(dwm_loadavg)"
+    #upperbar="$upperbar$(dwm_loadavg)"
     #upperbar="$upperbar$(dwm_currency)"
    
     # Append results of each func one by one to the lowerbar string

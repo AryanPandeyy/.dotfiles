@@ -1,1 +1,1 @@
-/home/pandeypc/.config/x11/xinitrc
+/home/ap/.config/x11/xinitrc

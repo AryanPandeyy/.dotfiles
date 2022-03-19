@@ -1,8 +1,21 @@
-nitrogen --restore & 
-xcompmgr &
-xset r rate 300 50 &
-sxhkd &
-unclutter &
-dunst &
-bugs &
-exec dwm
+#nitrogen --restore &
+#xcompmgr &
+#xset r rate 300 50 &
+#setxkbmap -option caps:swapescape &
+#xmodmap ~/.config/xmodmap/Xmodmap &
+#sxhkd &
+#unclutter &
+#dunst &
+#sbar &
+#bugs &
+#dwmblocks &
+# Statusbar
+#/home/pandeypc/.local/dwm-bar/dwm_bar.sh &
+#exec dwm
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile" ]; then
+	. "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"
+else
+	. "$HOME/.xprofile"
+fi
+
+ssh-agent dwm

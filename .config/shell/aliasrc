@@ -1,7 +1,6 @@
-alias diaryy='EDITOR=vim diary ~/.diary/'
+alias diaryy='EDITOR=vim diary ~/ARYAN/diary/'
 alias v='nvim'
-alias dark='sudo brillo -q -U 5'
-alias bright='sudo brillo -q -A 5'
+alias vi='vim'
 alias mail='neomutt'
 alias news='newsboat'
 alias am='alsamixer'
@@ -9,9 +8,29 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias anime='ani-cli'
 alias hst="history 1 -1 | cut -c 8- | sort | uniq | fzf | tr -d '\n' | xclip -sel c"
 alias y='ytfzf --pages=5'
+alias z='zathura'
+alias pacman='sudo pacman'
+alias xev="xev -event keyboard | sed -Ene 's/.*keycode\s*([0-9]*)\s*\(keysym\s*\w*,\s*(\w*)\).*/keycode \1 (\2)/' -e '/keycode/p'"
+
+#yt-dlp aliases
+alias ytmusic='yt-dlp -f 'ba' -x --audio-format mp3'
+alias ytvideo="yt-dlp -f 'best[height>=1080]'"
 
 # devour windows
 #alias zathura='devour zathura'
 #alias sxiv='devour sxiv'
 
-se() { du -a ~/.local/ ~/.config/ | awk '{print $2}' | fzf | xargs -r $EDITOR ;}
+# luke alias
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	bc="bc -ql" \
+	mkd="mkdir -pv"
+alias lf='lfub'
+
+alias \
+	ls="ls -hN --color=auto --group-directories-first" \
+	grep="grep --color=auto"
+
+se() { du -a ~/.config/ | awk '{print $2}' | fzf | xargs -o vim ;}

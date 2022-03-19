@@ -2,6 +2,8 @@
 	"-----Blogs-----"
 https://lukesmith.xyz/rss.xml
 https://bugswriter.com/atom.xml "~bugswriter"
+https://austinhenley.com/blog/feed.rss 
+https://hitarththummar.xyz/rss.xml
 https://dataswamp.org/~solene/rss.xml
 http://frostyx.cz/
 https://zenbro.github.io/rss.xml
@@ -17,6 +19,7 @@ https://feeds.br.de/eins-zu-eins-der-talk/feed.xml
 	"-----Twitter-----"
 https://nitter.net/LifeMathMoney/rss
 https://nitter.net/puneetbiseria/rss
+https://nitter.net/kunalstwt/rss
 " "
 	"-----YouTube-----"
 https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA "yt" #Luke Smith 

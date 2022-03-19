@@ -13,7 +13,14 @@ update_memory () {
 }
 
 update_time () { 
-	time="$(date "+[  %a %d %b ] [  %I:%M %P ]")" 
+	time="$(date "+[ 📅%a %d %b ] [ 🕓%I:%M %P ]")" 
+}
+
+update_backlight () { 
+	# you might need to change the path depending on your device
+	read -r actual_brightness </sys/class/backlight/intel_backlight/actual_brightness
+	read -r max_brightness </sys/class/backlight/intel_backlight/max_brightness
+	backlight="☀$((actual_brightness*100/max_brightness))%"
 }
 
 #print_wifi() {
@@ -30,6 +37,7 @@ update_time () {
 #        echo -ne " ${vol}%"
 #    fi
 #}
+#dispstr="$dispstr$(dwm_countdown)"
 
 #update_bat () { 
 	# you might need to change the path depending on your device
@@ -51,25 +59,87 @@ update_time () {
 #	bat="$bat_status $bat_capacity%"
 #}
 
-#update_vol () { 
-#	vol="$([ "$(pamixer --get-mute)" = "false" ] && printf ' ' || printf ' ')$(pamixer --get-volume)%"
+update_vol () { 
+	vol="$([ "$(pamixer --get-mute)" = "false" ] && printf '🔉' || printf '🔇')$(pamixer --get-volume)%"
+}
+
+#dwm_countdown () {
+#    for f in /tmp/countdown.*; do
+#        if [ -e "$f" ]; then
+#            printf "%s" "$SEP1"
+#            if [ "$IDENTIFIER" = "unicode" ]; then
+#                printf "⏳ %s" "$(tail -1 /tmp/countdown.*)"
+#            else
+#                printf "CDN %s" "$(tail -1 /tmp/countdown.*)"
+#            fi
+#            printf "%s\n" "$SEP2"
+#
+#            break
+#        fi
+#    done
+#}
+#
+#dwm_countdown
+
+#update_news () {
+#	news=$(cat /tmp/newsupdate 2>/dev/null || echo "$(newsboat -x print-unread | awk '{ if($1>0) print "📰" $1}')$(cat "${XDG_CONFIG_HOME:-$HOME/.config}"/newsboat/.update 2>/dev/null)")
+#}
+
+#update_mail () {
+#	unread="$(find "${XDG_DATA_HOME:-$HOME/.local/share}"/mail/*/[Ii][Nn][Bb][Oo][Xx]/new/* -type f | wc -l 2>/dev/null)"
+#
+#pidof mbsync >/dev/null 2>&1 && icon="🔃"
+#
+#[ "$unread" = "0" ] && [ "$icon" = "" ] || echo "📬$unread$icon"
+#}
+
+#update_net () {
+#update() {
+#    sum=0
+#    for arg; do
+#        read -r i < "$arg"
+#        sum=$(( sum + i ))
+#    done
+#    cache=${XDG_CACHE_HOME:-$HOME/.cache}/${1##*/}
+#    [ -f "$cache" ] && read -r old < "$cache" || old=0
+#    printf %d\\n "$sum" > "$cache"
+#    printf %d\\n $(( sum - old ))
+#}
+#
+#rx=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
+#tx=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
+#
+#printf "🔻%4sB 🔺%4sB\\n" $(numfmt --to=iec $rx) $(numfmt --to=iec $tx)
+#}
+#
+#update_wifi () {
+#	if grep -xq 'up' /sys/class/net/w*/operstate 2>/dev/null ; then
+#	wifiicon="$(awk '/^\s*w/ { print "📶", int($3 * 100 / 70) "% " }' /proc/net/wireless)"
+#elif grep -xq 'down' /sys/class/net/w*/operstate 2>/dev/null ; then
+#	grep -xq '0x1003' /sys/class/net/w*/flags && wifiicon="📡 " || wifiicon="❌ "
+#fi
+#
+#printf "%s%s%s\n" "$wifiicon" "$(sed "s/down/❎/;s/up/🌐/" /sys/class/net/e*/operstate 2>/dev/null)" "$(sed "s/.*/🔒/" /sys/class/net/tun*/operstate 2>/dev/null)"
+#
 #}
 
 # We have to run this only once.
-#update_vol
+update_vol
+update_backlight
 #print_volume
 
 #display () { 
 #	xsetroot -name "[  $memory $cpu ] [ $vol ] $time"
 #}
 display () { 
-	xsetroot -name "[  $memory $cpu ] $time"
+	xsetroot -name "[🌋$memory 🧠$cpu] [$backlight] [$vol] $time"
 }
 
 # Handling receiving signal
 # RTMIN = 34 (always)
-#trap	"update_vol;display"	"RTMIN"
-trap	"display"	"RTMIN"
+trap	"update_vol;display"	"RTMIN"
+trap	"update_backlight;display" 	"RTMIN+1"
+#trap	"display"	"RTMIN"
 
 ## kill -m "$(cat ~/.cache/pidofbar)"
 # where m = 34 + n
@@ -81,8 +151,11 @@ do
 		# to update item ever n seconds with a offset of m
 		## [ $((sec % n)) -eq m ] && udpate_item
 		[ $((sec % 5 )) -eq 0 ] && update_time
+		#[ $((sec % 5 )) -eq 0 ] && dwm_countdown
 		[ $((sec % 15)) -eq 0 ] && update_memory
 		[ $((sec % 15)) -eq 0 ] && update_cpu
+		[ $((sec % 60)) -eq 0 ] && update_bat
+		#[ $((sec % 60)) -eq 0 ] && update_mail
 		#[ $((sec % 60 )) -eq 0 ] && update_bat
 
 		# how often the display updates ( 5 seconds )
