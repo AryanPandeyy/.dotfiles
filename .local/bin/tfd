@@ -1,0 +1,6 @@
+curl -o ~/.cache/meaning.txt https://www.thefreedictionary.com/$(xclip -o)
+grep -oP '(?<=<div class="ds-list">).*?(?=</div>)' ~/.cache/meaning.txt > ~/.cache/temp.txt
+sed -i 's/<[^>]*>//g' ~/.cache/temp.txt >~/.cache/meaning.txt
+grep -v '^\s*$\|^\s*\#' ~/.cache/temp.txt >~/.cache/meaning.txt
+line=$(head -n 4 ~/.cache/meaning.txt)
+echo $line | while read SPAM_OUT; do notify-send "$SPAM_OUT"; done

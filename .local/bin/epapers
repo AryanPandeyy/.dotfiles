@@ -1,0 +1,19 @@
+#!/bin/bash
+if [[ -z $1 ]]
+then
+date=$(date '+%Y/%m/%d');
+else
+date=$1;
+fi
+date1=$(date '+%d_%m_%Y');
+echo $date1
+cachedir="$HOME/epaper"
+datedir=$(sed 's/\//-/g' <<< $date)
+echo $datedir
+mkdir -p $cachedir/$datedir
+for i in 00{1..9} 0{10..30}
+do
+    wget -nc -O $cachedir/$datedir/$i.jpg https://asset.harnscloud.com/PublicationData/TOI/toim/$date/Page/"${date1}_${i}_toim".jpg
+done
+notify-send "Grab a ☕Coz here is your 🗞️📰 "
+sxiv -z 110 $cachedir/$datedir/*
