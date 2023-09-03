@@ -15,7 +15,7 @@ alias xev="xev -event keyboard | sed -Ene 's/.*keycode\s*([0-9]*)\s*\(keysym\s*\
 alias sn='simplenote --in-process-gpu'
 alias dots='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ghc='git clone --depth 1'
-alias gitresuce = "git config --global alias.rescue '!git fsck --full --no-reflogs --unreachable --lost-found | grep commit | cut -d\  -f3 | xargs -n 1 git log -n 1 --pretty=oneline > .git/lost-found.txt'"
+# gitresuce ='git config --global alias.rescue '!git fsck --full --no-reflogs --unreachable --lost-found | grep commit | cut -d\  -f3 | xargs -n 1 git log -n 1 --pretty=oneline > .git/lost-found.txt''
 
 #yt-dlp aliases
 alias ytmusic='yt-dlp -f 'ba' -x --audio-format mp3'
