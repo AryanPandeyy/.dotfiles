@@ -1,16 +1,21 @@
-alias diaryy='EDITOR=vim diary ~/ARYAN/diary/'
+#alias diaryy='EDITOR=vim diary ~/ARYAN/diary/'
 alias v='nvim'
 alias vi='vim'
-alias mail='neomutt'
+alias aa='readable $(xclip -o -sel c) | w3m -T text/html'
+#alias lf='lfub'
+#alias mail='neomutt'
 alias news='newsboat'
 alias am='alsamixer'
-alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias anime='ani-cli'
+#alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias hst="history 1 -1 | cut -c 8- | sort | uniq | fzf | tr -d '\n' | xclip -sel c"
 alias y='ytfzf --pages=5'
+alias pyen='source env/bin/activate'
 alias z='zathura'
-alias pacman='sudo pacman'
 alias xev="xev -event keyboard | sed -Ene 's/.*keycode\s*([0-9]*)\s*\(keysym\s*\w*,\s*(\w*)\).*/keycode \1 (\2)/' -e '/keycode/p'"
+alias sn='simplenote --in-process-gpu'
+alias dots='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias ghc='git clone --depth 1'
+alias gitresuce = "git config --global alias.rescue '!git fsck --full --no-reflogs --unreachable --lost-found | grep commit | cut -d\  -f3 | xargs -n 1 git log -n 1 --pretty=oneline > .git/lost-found.txt'"
 
 #yt-dlp aliases
 alias ytmusic='yt-dlp -f 'ba' -x --audio-format mp3'
@@ -33,4 +38,6 @@ alias \
 	ls="ls -hN --color=auto --group-directories-first" \
 	grep="grep --color=auto"
 
-se() { du -a ~/.config/ | awk '{print $2}' | fzf | xargs -o vim ;}
+# Use neovim for vim if present.
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+se() { du -a ~/.config/ | awk '{print $2}' | fzf | xargs -o nvim ;}
